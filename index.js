@@ -1,5 +1,5 @@
+const Sequelize = require('sequelize')
 const {Client, Collection, GatewayIntentBits, VoiceStateManager} = require('discord.js')
-
 const path = require('path')
 const fs = require('fs')
 const token = require('./config.json')
@@ -11,6 +11,16 @@ const client = new Client({intents: [
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildVoiceStates
 ]})
+
+// db config
+const database = require('./db')
+const User = require('./models/user')
+database.sync().then(() =>{
+    console.log('db connectado')
+}).catch((error) => {
+    console.error(error)
+})
+
 
 // make bot to load all commands
 const foldersPath = path.join(__dirname, 'commands')
